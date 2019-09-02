@@ -12,13 +12,24 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "semantic-release": "beta"
-  },
   "bugs": {
     "url": "https://github.com/DreamworldSolutions/dw-multi-value-field/issues"
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-multi-value-field#readme",
+  "dependencies": {
+    "@dreamworld/dw-button": "^1.0.3",
+    "@dreamworld/flex-layout": "^1.0.0",
+    "@dw/dw-form": "^1.0.2-SNAPSHOT",
+    "@dreamworld/dw-icon-button": "^1.0.0-init.1",
+    "@dw/dw-input": "^1.0.8-SNAPSHOT",
+    "@dw/material-styles": "^1.0.4-SNAPSHOT",
+    "lit-element": "^2.2.0",
+    "lodash-es": "^4.17.11"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "semantic-release": "beta"
+  },
   "publishConfig": {
     "access": "public"
   }
