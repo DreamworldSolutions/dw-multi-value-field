@@ -13,12 +13,13 @@ import { css, LitElement, html } from 'lit-element';
 // These are the dw element needed by this element.
 import '@dw/dw-input/dw-input';
 import '@dreamworld/dw-button/dw-button';
-import '@dreamworld/dw-icon-button/dw-icon-button';
+import '@dw/dw-icon-button/dw-icon-button';
 import { DwFormElement } from '@dw/dw-form/dw-form-element';
 
 // These are the lodash element needed by this element.
-import  uniq from 'lodash-es/uniq.js'
-import  compact from 'lodash-es/compact.js'
+import uniq from 'lodash-es/uniq.js';
+import compact from 'lodash-es/compact.js';
+import isArray from 'lodash-es/isArray.js';
 
 // These are the dw styles element needed by this element.
 import { flexLayout } from '@dreamworld/flex-layout/flex-layout.js';
@@ -51,7 +52,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     ];
   }
 
-  static get properties(){
+  static get properties() {
     return {
       /**
        * label of element
@@ -66,7 +67,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       /**
        * consider minimum element is required
        */
-      min : { type: Number },
+      min: { type: Number },
 
       /**
        * consider maximum element is required
@@ -84,58 +85,63 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       errorMessage: { type: String },
 
       /**
+       * `true` if allow to enter duplicate value
+       */
+      allowDuplicates: { type: Boolean },
+
+      /**
        * contains howmany elements is displyed
        */
       _value: { type: Array }
     }
   }
 
-  render(){
+  render() {
     let required = false;
-    return html `
-      <div class="layout vertical">
-        ${this._value && this._value.length ? html `
+    return html`
+      <div class="layout vertical input-container">
+        ${this._value && this._value.length ? html`
           ${this._value.map((value, index) => {
             return html`
               <section class="layout horizontal container">
                 ${this._formElementTemplate(index, value, required)}
-                ${this._value.length > this.min ? 
-                  html `<dw-icon-button icon="clear" @click="${this.remove}" .index="${index}"></dw-icon-button>` 
+                ${this._value.length > this.min ?
+                    html`<dw-icon-button icon="clear" @click="${this.remove}" .index="${index}"></dw-icon-button>`
                   : ''
                 }
               </section>
             `
-            })}
+          })}
         ` : ''}
-        ${this.errorMessage ? html `<div class="error-message body1">${this.errorMessage}</div>` : ''}
+        ${this.errorMessage ? html`<div class="error-message body1">${this.errorMessage}</div>` : ''}
       </div>
-      ${this._value.length >= this.max ? '' : html `${this._addButtonTemplate()}`}
+      ${this._addButtonTemplate()}
     `
   }
 
-
-  constructor(){
+  constructor() {
     super();
 
+    this._value = [];
     this.label = '';
     this.min = 0;
+    this._min = 0;
     this.errorMessage = '';
     this.allowDuplicates = false;
-    this._value = [];
     this._elements = [];
     this._valueChanged = this._valueChanged.bind(this);
   }
 
-  connectedCallback(){
+  connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('register-dw-form-element', (e) => { 
-      if(!e || !e.detail){
+    this.addEventListener('register-dw-form-element', (e) => {
+      if (!e || !e.detail) {
         return;
       }
-      
+
       e.detail.addEventListener('value-changed', this._valueChanged);
       e.detail.addEventListener('unregister-dw-form-element', (e) => {
-        if(this._elements.indexOf(e.detail) != -1){
+        if (this._elements.indexOf(e.detail) != -1) {
           this._elements.splice(e.detail.index, 1);
         }
         e.detail.removeEventListener('value-changed', this._valueChanged);
@@ -152,7 +158,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * @param {Boolean} required 
    * used to render template.
    */
-  _formElementTemplate(itemIndex, itemValue, required){
+  _formElementTemplate(itemIndex, itemValue, required) {
     return html`
       <dw-input 
         label="${this.label}"
@@ -163,13 +169,13 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       </dw-input>
     `
   }
-  
+
   /**
    * add button template
    */
-  _addButtonTemplate(){
-    return html `
-      <dw-button outlined label="Add" @click="${this._onAdd}"></dw-button>
+  _addButtonTemplate() {
+    return html` 
+      ${this._value.length >= this.max ? '' : html`<dw-button outlined label="Add" @click="${this.addNew}"></dw-button>`}
     `
   }
 
@@ -177,64 +183,91 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * @param {Array} index 
    * set value
    */
-  set value(val){
+  set value(val) {
+    if(!isArray){
+      throw new Error('value must be array');
+    }
+
+    this._ensureMin();
     this.requestUpdate('value', val);
   }
 
   /**
    * get value
    */
-  get value() { 
+  get value() {
     return this._isEmpty();
+  }
+
+  /**
+   * @param {Number} val 
+   */
+  set min(val) {
+    let oldValue = this._min;
+    this._min = val;
+    this._ensureMin();
+    this.requestUpdate('min', oldValue);
+  }
+
+  /**
+   * get min value
+   */
+  get min() {
+    return this._min;
+  }
+
+  /**
+   * Ensures that _value.length is >= min. It uses `addNew()` to fill-up the remaining space
+   */
+  _ensureMin() {
+    if (this._value && this._value.length >= this._min) {
+      return;
+    }
+
+    for (let i = 0; i < this._min; i++) {
+      this.addNew();
+    }
   }
 
   /**
    * remove falsy value from array
    */
-  _isEmpty(){
-    return compact(this._value);
-  }
-  
-  /**
-   * ensure that _value length is greater than or not
-   */
-  _ensureMin(){
-    if(this._value && this._value.length < this.min){
-      return true;
-    }
+  _isEmpty() {
+    let aValue = [];
 
-    return false;
+    [...this._value].forEach((value) => {
+      if (this._getNewVal() != value) {
+        aValue.push(value);
+      }
+    });
+
+    return aValue;
   }
 
   /**
    * It's validate any one field has validation is false
    * It's also validate field has a duplicate value or not.
    */
-  validate(){
+  validate() {
     let bValidate = true;
 
     this._elements.forEach((element) => {
-      if(!element.validate()){
+      if (!element.validate()) {
         bValidate = false;
       }
     });
 
-    let bMin = this._ensureMin();
     let bDuplicate = this.hasDuplicates(this._value);
 
-    if(bMin) {
-      bValidate = !bMin;
-      this._setErrorMessage(`Minimum ${this.min} field is required`);
-    }
-
-    if(bDuplicate){
+    if (bDuplicate) {
       bValidate = !bDuplicate;
-      this._setErrorMessage('Remove duplicate');
+      this._setErrorMessage('Remove duplicate value');
     }
 
-    if(bValidate){
+    if (bValidate) {
       this._setErrorMessage('');
     }
+
     return bValidate;
   }
 
@@ -242,7 +275,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * @param {String} errorMessage
    * sets errorMessage 
    */
-  _setErrorMessage(errorMessage){
+  _setErrorMessage(errorMessage) {
     this.errorMessage = errorMessage;
   }
 
@@ -252,13 +285,13 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * It's return true if array has duplicate value otherwise false
    */
   hasDuplicates(array) {
-    let aUniq = uniq(array);
-
-    if(this.allowDuplicates || (aUniq.length && aUniq[0] == '')){
+    if (this.allowDuplicates) {
       return false;
     }
-    
-    return aUniq.length !== array.length; 
+
+    let aUniq = [...array];
+
+    return uniq(compact(aUniq)).length !== compact(aUniq).length;
   }
 
   /**
@@ -266,16 +299,15 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * @param {Object} e 
    * sets '_value' property
    */
-  _valueChanged(e){
+  _valueChanged(e) {
     let value = e.currentTarget.value;
     let index = e.currentTarget.index;
 
-    if(value === this._value[index]){
+    if (value === this._value[index]) {
       return;
     }
 
     this._value.splice(index, 1, value);
-    this.value = this._value;
   }
 
   /**
@@ -283,28 +315,28 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * @param {Object} e
    * remove value from specific index 
    */
-  remove(e){
+  remove(e) {
     let index = e.currentTarget.index;
 
     this._value = [...this._value];
     this._value.splice(index, 1);
-    this.value = this._value;
   }
 
   /**
    * call _getNewVal function
    */
-  _onAdd(){
-    this._getNewVal();
+  addNew() {
+    let aNewValue = [...this._value];
+    let newVal = this._getNewVal();
+    aNewValue.push(newVal);
+    this._value = aNewValue;
   }
 
   /**
    * set '_value' propret
    */
-  _getNewVal(){
-    let aNewValue = [...this._value];
-    aNewValue.push('');
-    this._value = aNewValue;
+  _getNewVal() {
+    return null;
   }
 }
 
