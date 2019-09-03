@@ -1,0 +1,25 @@
+{
+  "name": "@dreamworld/dw-multi-value-field",
+  "version": "0.0.0-development",
+  "description": "A Multi-value form-field WebComponent, made by LitElement",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DreamworldSolutions/dw-button.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "semantic-release": "beta"
+  },
+  "bugs": {
+    "url": "https://github.com/DreamworldSolutions/dw-multi-value-field/issues"
+  },
+  "homepage": "https://github.com/DreamworldSolutions/dw-multi-value-field#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}
