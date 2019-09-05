@@ -11,10 +11,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { css, LitElement, html } from 'lit-element';
 
 // These are the dw element needed by this element.
-import '@dw/dw-input/dw-input.js';
+import '@dreamworld/dw-input/dw-input.js';
 import '@dreamworld/dw-button/dw-button.js';
-import '@dw/dw-icon-button/dw-icon-button.js';
-import { DwFormElement } from '@dw/dw-form/dw-form-element';
+import '@dreamworld/dw-icon-button/dw-icon-button.js';
+import { DwFormElement } from '@dreamworld/dw-form/dw-form-element';
 
 // These are the lodash element needed by this element.
 import uniq from 'lodash-es/uniq.js';
@@ -24,7 +24,7 @@ import isArray from 'lodash-es/isArray.js';
 // These are the dw styles element needed by this element.
 import { flexLayout } from '@dreamworld/flex-layout/flex-layout.js';
 import { alignment } from '@dreamworld/flex-layout/flex-layout-alignment.js';
-import { Typography } from '@dw/material-styles/typography.js';
+import { Typography } from '@dreamworld/material-styles/typography.js';
 
 export class DwMultiValueField extends DwFormElement(LitElement) {
   static get styles() {

@@ -11,7 +11,7 @@
     "url": "git+https://github.com/DreamworldSolutions/dw-button.git"
   },
   "author": "",
-  "license": "ISC", 
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/DreamworldSolutions/dw-multi-value-field/issues"
   },
@@ -19,10 +19,10 @@
   "dependencies": {
     "@dreamworld/dw-button": "^1.0.3",
     "@dreamworld/flex-layout": "^1.0.0",
-    "@dw/dw-form": "^1.0.2-SNAPSHOT",
-    "@dw/dw-icon-button": "^1.0.3-SNAPSHOT",
-    "@dw/dw-input": "^1.0.8-SNAPSHOT",
-    "@dw/material-styles": "^1.0.4-SNAPSHOT",
+    "@dreamworld/dw-form": "^1.0.1",
+    "@dreamworld/dw-icon-button": "^1.0.0",
+    "@dreamworld/dw-input": "^1.0.0",
+    "@dreamworld/material-styles": "^1.1.0",
     "lit-element": "^2.2.0",
     "lodash-es": "^4.17.11"
   },
