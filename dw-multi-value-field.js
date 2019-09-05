@@ -11,9 +11,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { css, LitElement, html } from 'lit-element';
 
 // These are the dw element needed by this element.
-import '@dw/dw-input/dw-input';
-import '@dreamworld/dw-button/dw-button';
-import '@dw/dw-icon-button/dw-icon-button';
+import '@dw/dw-input/dw-input.js';
+import '@dreamworld/dw-button/dw-button.js';
+import '@dw/dw-icon-button/dw-icon-button.js';
 import { DwFormElement } from '@dw/dw-form/dw-form-element';
 
 // These are the lodash element needed by this element.

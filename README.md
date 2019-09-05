@@ -15,17 +15,17 @@ It's defult provide dw-input template. To override dw-input template override th
 import  { DwMultiValueField } from '../dw-multi-value-field.js';
 
 export class DwMultiValueFieldDemo extends DwMultiValueField {
-	_formElementTemplate(itemIndex, itemValue, required){
-		return html `
-			<dw-date-input 
-				.value="${itemValue}" 
-				.index="${itemIndex}"
-				?required=${required}"
-				label="Start date" 
-				placeholder="Enter date here">
-			</dw-date-input>
-		`
-	}
+_formElementTemplate(itemIndex, itemValue, required){
+	return html `
+		<dw-date-input 
+			.value="${itemValue}" 
+			.index="${itemIndex}"
+			?required=${required}"
+			label="Start date" 
+			placeholder="Enter date here">
+		</dw-date-input>
+	`
+}
 }
 ```
 
