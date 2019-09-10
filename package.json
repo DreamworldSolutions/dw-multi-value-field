@@ -21,7 +21,7 @@
     "@dreamworld/flex-layout": "^1.0.0",
     "@dreamworld/dw-form": "^1.0.1",
     "@dreamworld/dw-icon-button": "add-hover-style",
-    "@dreamworld/dw-input": "^1.0.1-auto-formatting.8",
+    "@dreamworld/dw-input": "^1.0.1-auto-formatting.8", 
     "@dreamworld/material-styles": "^1.1.0",
     "lit-element": "^2.2.0",
     "lodash-es": "^4.17.11"
