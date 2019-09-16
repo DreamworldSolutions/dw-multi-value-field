@@ -35,6 +35,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       css`
         :host {
           display: inline-block;
+          --dw-icon-color: rgba(0, 0, 0, 0.6);
         }
         dw-icon-button {
           width: 48px;
