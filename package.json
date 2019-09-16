@@ -2,7 +2,7 @@
   "name": "@dreamworld/dw-multi-value-field",
   "version": "0.0.0-development",
   "description": "A Multi-value form-field WebComponent, made by LitElement",
-  "main": "index.js",
+  "main": "dw-multi-value-field.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
