@@ -337,7 +337,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * set '_value' propret
    */
   _getNewVal() {
-    return null;
+    return '';
   }
 }
 
