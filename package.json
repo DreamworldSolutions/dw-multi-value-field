@@ -19,8 +19,8 @@
   "dependencies": {
     "@dreamworld/dw-button": "^1.0.3",
     "@dreamworld/dw-form": "^1.0.1",
-    "@dreamworld/dw-icon-button": "1.1.1", 
-    "@dreamworld/dw-input": "^1.0.2",
+    "@dreamworld/dw-icon-button": "1.1.1",
+    "@dreamworld/dw-input": "^1.3.0",
     "@dreamworld/flex-layout": "^1.0.0",
     "@dreamworld/material-styles": "^1.1.0",
     "lit-element": "^2.2.0",
