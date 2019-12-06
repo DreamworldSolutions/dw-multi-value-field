@@ -86,9 +86,20 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       errorMessage: { type: String },
 
       /**
-       * `true` if allow to enter duplicate value
+       * `true` if allow to enter duplicate value. 
+       * This property is used during `validate` logic, to check whether any element is duplicate or not.
        */
       allowDuplicates: { type: Boolean },
+
+      /**
+       * A Text message which is dispalyed to the user when duplicate value is found in the Array.
+       */
+      duplicateValidationMsg: { type: String },
+
+      /**
+       * A Text message which is dispalyed to the user when `min` validation is falied.
+       */
+      minValidationMsg: {type: String},
 
       /**
        * contains howmany elements is displyed
@@ -99,20 +110,22 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
 
   render() {
     let required = false;
+    //TODO: Render label, which you haven't
     return html`
       <div class="layout vertical input-container">
+       <!--TODO: Render using repeat directive, need a protected method to identify the key, use: _getValueAsArray()-->
         ${this._value && this._value.length ? html`
           ${this._value.map((value, index) => {
-            return html`
+      return html`
               <section class="layout horizontal container">
                 ${this._formElementTemplate(index, value, required)}
-                ${this._value.length > this.min ?
-                    html`<dw-icon-button icon="clear" @click="${this.remove}" .index="${index}"></dw-icon-button>`
-                  : ''
-                }
+                ${this._value.length > this.min ? //TODO: This should be controlled through CSS, not using template
+          html`<dw-icon-button icon="clear" @click="${this.remove}" .index="${index}"></dw-icon-button>`
+          : ''
+        }
               </section>
             `
-          })}
+    })}
         ` : ''}
         ${this.errorMessage ? html`<div class="error-message body1">${this.errorMessage}</div>` : ''}
       </div>
@@ -125,35 +138,35 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
 
     this._value = [];
     this.label = '';
-    this.min = 0;
     this._min = 0;
     this.errorMessage = '';
     this.allowDuplicates = false;
-    this._elements = [];
+    this._elements = []; //TODO: Rename to _formElements
     this._valueChanged = this._valueChanged.bind(this);
+    //TODO: Set default value of duplicateValidateMsg and minValidationMsg
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('register-dw-form-element', (e) => {
-      if (!e || !e.detail) {
-        return;
-      }
 
-      e.detail.addEventListener('value-changed', this._valueChanged);
-      e.detail.addEventListener('unregister-dw-form-element', (e) => {
-        if (this._elements.indexOf(e.detail) != -1) {
-          this._elements.splice(e.detail.index, 1);
-        }
-        e.detail.removeEventListener('value-changed', this._valueChanged);
+      let el;
+      //TODO: identify the element who has dispatched this event.
+
+      el.addEventListener('value-changed', this._valueChanged); //TODO: Rename to _onElementValueChange
+      el.addEventListener('unregister-dw-form-element', (e) => {
+        el.removeEventListener('value-changed', this._valueChanged);
+        //TODO: Remove el from this._elements.
       });
 
-      this._elements.push(e.detail);
+      this._elements.push(el); //TODO: Element should be organized by index, don't maintain Array.
     });
   }
 
   /**
-   * 
+   * Protected method. 
+   * By default it renders `dw-input` as the form-element. You may override this to render any custom-form element.
+   * IMPORTANT: You should propertly set `index` property of the `dw-form-element`, as it's being used in other logic.
    * @param {Number} index 
    * @param {String} value 
    * @param {Boolean} required 
@@ -162,19 +175,46 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   _formElementTemplate(itemIndex, itemValue, required) {
     return html`
       <dw-input 
-        label="${this.label}"
         .value="${itemValue}" 
         .index="${itemIndex}"
-        ?required=${required || (itemIndex < this.min) ? true : false} 
-        errorMessage="required">
+        ?required="${required || (itemIndex < this.min) ? true : false}">
       </dw-input>
-    `
+    `;
+  }
+
+  _getValueAsArray() {
+    if (!this._value) {
+      return [];
+    }
+
+    if (typeof this._value !== 'Array') {
+      console.warn("value isn't an Array");
+      return [];
+    }
+
+    return this._value;
+  }
+
+  /**
+   * A protected method, which provides identity of the form-element based on it's value. It's used as the `key` 
+   * attribute to render this form-element using `repeat` directive.
+   * 
+   * This function MUST be overriden when form-element's value is complex data-type (not a primitive). When this 
+   * function is properly configured, it avoids re-rendering of all the items when one of the item (e.g. Top  item) is
+   * removed from the Array.
+   * 
+   * Default implementation returns the input value itself. So, it works ok for primitive types.
+   * @param {*} value 
+   */
+  _formElementId(value) {
+    return value;
   }
 
   /**
    * add button template
    */
   _addButtonTemplate() {
+    //TODO: Render button, just show/hide or enable/disable based on the condition.
     return html` 
       ${this._value.length >= this.max ? '' : html`<dw-button outlined label="Add" @click="${this.addNew}"></dw-button>`}
     `
@@ -185,19 +225,28 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * set value
    */
   set value(val) {
-    if(!isArray){
+    if (!isArray) {
       throw new Error('value must be array');
     }
-
+    let oldValue = this._value;
+    this._value = val;
     this._ensureMin();
-    this.requestUpdate('value', val);
+    this.requestUpdate('value', oldValue);
   }
 
   /**
    * get value
    */
   get value() {
-    return this._isEmpty();
+    let aValue = [];
+
+    [...this._value].forEach((value) => {
+      if (this._isEmptyVal(value)) {
+        aValue.push(value);
+      }
+    });
+
+    return aValue;
   }
 
   /**
@@ -231,21 +280,6 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   }
 
   /**
-   * remove falsy value from array
-   */
-  _isEmpty() {
-    let aValue = [];
-
-    [...this._value].forEach((value) => {
-      if (this._getNewVal() != value) {
-        aValue.push(value);
-      }
-    });
-
-    return aValue;
-  }
-
-  /**
    * It's validate any one field has validation is false
    * It's also validate field has a duplicate value or not.
    */
@@ -253,18 +287,31 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     let bValidate = true;
 
     this._elements.forEach((element) => {
+      if (!element.validate || typeof element.validate !== 'function') {
+        return;
+      }
+
       if (!element.validate()) {
         bValidate = false;
       }
     });
 
-    let bDuplicate = this.hasDuplicates(this._value);
+    //Retrieve array of values, where empty values have been removed.
+    let value = this.value;
 
-    if (bDuplicate) {
-      bValidate = !bDuplicate;
-      this._setErrorMessage('Remove duplicate value');
+    //Min validation
+    if(value.length < this.min) {
+      this._setErrorMessage(this.minValidationMsg);
+      return false;
     }
 
+    //duplicate validation
+    if (!this.allowDuplicates && this._hasDuplicates(value)) {
+      this._setErrorMessage(this.duplicateValidationMsg);
+      return false;
+    }
+
+    //If validation is passsed then clear any errorMessage if was shown from previous validation,
     if (bValidate) {
       this._setErrorMessage('');
     }
@@ -273,6 +320,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   }
 
   /**
+   * //TODO: Remove this method and instead directly set the value of the property.
    * @param {String} errorMessage
    * sets errorMessage 
    */
@@ -280,19 +328,30 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this.errorMessage = errorMessage;
   }
 
+
   /**
+   * A protected method.
+   * Verifies whether 2 arguments are equal or not.
    * 
-   * @param {Array} array 
-   * It's return true if array has duplicate value otherwise false
+   * Default implementation checks based on the deep equality of the value. In most cases, you don't need to override
+   * this method. Just override `_formElementId` method, and you will be set.
+   * @param {*} a 
+   * @param {*} b 
    */
-  hasDuplicates(array) {
-    if (this.allowDuplicates) {
-      return false;
-    }
+  _isEqual(a, b) {
+    return isEqual(this._formElementId(a), this._formElementId(b));
+  }
 
-    let aUniq = [...array];
-
-    return uniq(compact(aUniq)).length !== compact(aUniq).length;
+  /**
+   * Identifies whether value Array has any duplicate element or not.
+   * Typically this method receives Array where empty value has already been removed. So, duplicate is checked for the
+   * actual user inputted value.
+   * 
+   * @param value Array of values for which duplicate validation is to be performed.
+   */
+  _hasDuplicates(value) {
+    let newVal = uniqWith(value, this._isEqual);
+    return newVal.length < value.length;
   }
 
   /**
@@ -301,14 +360,19 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * sets '_value' property
    */
   _valueChanged(e) {
-    let value = e.currentTarget.value;
-    let index = e.currentTarget.index;
+    let el;
+    //TODO: Identify the element whose value is changed;
+    let formElValue = el.value;
+    let formElIndex = el.index;
 
-    if (value === this._value[index]) {
+    if (formElValue === this._value[formElIndex]) {
+      console.debug("Value is already same, so skip updating our Array");
       return;
     }
 
-    this._value.splice(index, 1, value);
+    let newValue = [...this._value];
+    newValue.splice(formElIndex, 1, formElValue);
+    this.value = newValue;
   }
 
   /**
@@ -317,27 +381,45 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * remove value from specific index 
    */
   remove(e) {
-    let index = e.currentTarget.index;
+    //TODO: Rename to _onRemove(e)
 
-    this._value = [...this._value];
-    this._value.splice(index, 1);
+    let index = e.currentTarget.index;
+  }
+
+  remove(index) {
+    let value = [...this._value];
+    value.splice(index, 1);
+    this.value = value;
   }
 
   /**
    * call _getNewVal function
    */
   addNew() {
-    let aNewValue = [...this._value];
-    let newVal = this._getNewVal();
-    aNewValue.push(newVal);
-    this._value = aNewValue;
+    this.value = [...this._value,  this._getNewVal()];
   }
 
   /**
-   * set '_value' propret
+   * A Protected method.
+   * 
+   * Checks whether the given value is empty or not. By default it checks based on javascript falsy value check.
+   * You may need to override this in case your value is not primitive.
+   * @param {*} val 
+   */
+  _isEmptyVal(val) {
+    return _.isEmpty(val);
+  }
+
+  /**
+   * A protected method.  You may override it as per your need.
+   * Returns a value to be used for the newly added form-element.
+   * It could return any complex data-type like Object (or even Array), condition is only that the your form-element 
+   * (rendered through `_formElementTemplate`) should support that value in the `value` property.
+   * 
+   * By default it return `null`. 
    */
   _getNewVal() {
-    return '';
+    return null;
   }
 }
 
