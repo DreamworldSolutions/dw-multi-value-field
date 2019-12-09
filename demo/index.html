@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Dw multi value field</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Dw multi value field">
+  </head>
+  <style>
+    body {
+      margin: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    dw-button {
+      width: 100px;
+      margin-top: 24px;
+    }
+  </style>
+  <body>
+    <dw-multi-value-field-demo label="Multi value field"  min=2 max=10 name="multiValueField"></dw-multi-value-field-demo>
+    <dw-button onclick="validate()">validate</dw-button>
+
+    <script>
+      function validate(){
+        document.querySelector('dw-multi-value-field-demo').validate();
+      }
+    </script>
+  <noscript>
+    Please enable JavaScript to view this website.
+  </noscript>
+     
+    <!-- Built with love using PWA Starter Kit -->
+    <script type="module" src="./dw-multi-value-field-demo.js"></script>
+    <script type="module" src="../node_modules/@dreamworld/dw-form/dw-form.js"></script>
+  </body>
+</html>
