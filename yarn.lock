@@ -79,9 +79,9 @@
     lit-element "^2.1.0"
 
 "@dreamworld/material-styles@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@dreamworld/material-styles/-/material-styles-1.1.0.tgz#f6053b6a86d122c753140b0401d17214d19adfda"
-  integrity sha512-UaW/VOE6VP/ZXaZnz+VsWp0voLLr3kAJbAPesJ1ROAt8zuJHiPwj5yID1nKBnlb/yb7dPrbHizd8JAjgHc8XPw==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@dreamworld/material-styles/-/material-styles-1.1.1.tgz#5c66f08c706030df70641afbc2b593c00a8f96e9"
+  integrity sha512-o1croScoacWX2tVqOE6vCyrTMsRn/yeCvpUJ4RFWAit21tndja4rSHwupdqNxuKjwS4z8HgXR5k1XCQxAT+83Q==
   dependencies:
     "@polymer/font-roboto" "^3.0.2"
     lit-element "^2.2.0"
