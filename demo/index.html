@@ -9,13 +9,23 @@
   <style>
     body {
       margin: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    dw-button {
+      width: 100px;
+      margin-top: 24px;
     }
   </style>
   <body>
-  <h4>Multi value field </h4>
-    <dw-form>
-      <dw-multi-value-field-demo label="Input" min=2 max=10 name="multiValueField"></dw-multi-value-field-demo>
-    </dw-form>
+    <dw-multi-value-field-demo label="Multi value field"  min=2 max=10 name="multiValueField"></dw-multi-value-field-demo>
+    <dw-button onclick="validate()">validate</dw-button>
+
+    <script>
+      function validate(){
+        document.querySelector('dw-multi-value-field-demo').validate();
+      }
+    </script>
   <noscript>
     Please enable JavaScript to view this website.
   </noscript>
