@@ -227,6 +227,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   }
 
   /**
+   * A protected method.  You may override it as per your need.
    * add button template
    */
   _addButtonTemplate() {
@@ -423,8 +424,6 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   /**
    * A protected method.  You may override it as per your need.
    * Returns html template of `No records found` when records is not available.
-   * 
-   * By default it return `null`. 
    */
   _noRecordViewTempalte() {
     return html`<div class="body1 layout vertical center-center no-record-message">${this.noRecordMessage}</div>`
