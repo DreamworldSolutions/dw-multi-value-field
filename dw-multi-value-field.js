@@ -106,30 +106,30 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       /**
        * A Text message which is dispalyed to the user when `min` validation is falied.
        */
-      minValidationMsg: {type: String},
+      minValidationMsg: { type: String },
 
       /**
        * contains howmany elements is displyed
        */
       _value: { type: Array }
     }
-  } 
+  }
 
   render() {
     let required = false;
     return html`
-      ${this.label ? html `<div class="body1 label">${this.label}</div>` : ''}
+      ${this.label ? html`<div class="body1 label">${this.label}</div>` : ''}
       <div class="layout vertical main-container">
         ${repeat(this._getValueAsArray(), (value) => this._formElementId(value), (value, index) => html`
           <section class="layout horizontal input-container">
             ${this._formElementTemplate(index, value, required)}
               ${this._value.length > this.min ?
-                html`<dw-icon-button icon="clear" @click="${this._onRemove}" .index="${index}"></dw-icon-button>`
-                : ''
-              }
+        html`<dw-icon-button icon="clear" @click="${this._onRemove}" .index="${index}"></dw-icon-button>`
+        : ''
+      }
           </section>
         `)}
-        ${this._value && !this._value.length ? html`${this._noRecordViewTempalte()}` : '' }
+        ${this._value && !this._value.length ? html`${this._noRecordViewTempalte()}` : ''}
       ${this.errorMessage ? html`<div class="error-message body1">${this.errorMessage}</div>` : ''}
       </div>
       ${this._addButtonTemplate()}
@@ -155,14 +155,14 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this.addEventListener('register-dw-form-element', (e) => {
       let el = e.composedPath()[0];
 
-      if(el === this){
+      if (el === this) {
         return;
       }
-      
+
       el.addEventListener('value-changed', this._onElementValueChange);
       el.addEventListener('unregister-dw-form-element', (e) => {
         let removeEl = e.composedPath()[0];
-        
+
         if (this._formElements.indexOf(removeEl) != -1) {
           this._formElements.splice(removeEl.index, 1);
         }
@@ -316,7 +316,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     let value = this.value;
 
     //Min validation
-    if(value.length < this.min) {
+    if (value.length < this.min) {
       this.errorMessage = this.minValidationMsg;
       return false;
     }
@@ -394,7 +394,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * call _getNewVal function
    */
   addNew() {
-    this.value = [...this._value,  this._getNewVal()];
+    this.value = [...this._value, this._getNewVal()];
   }
 
   /**
@@ -426,7 +426,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * 
    * By default it return `null`. 
    */
-  _noRecordViewTempalte(){
+  _noRecordViewTempalte() {
     return html`<div class="body1 layout vertical center-center no-record-message">${this.noRecordMessage}</div>`
   }
 }
