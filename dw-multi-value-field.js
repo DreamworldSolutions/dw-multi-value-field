@@ -53,6 +53,9 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
           color: var(--mdc-theme-error, #b00020);
           margin-bottom: 16px;
         }
+        .main-container .no-record-message {
+          min-height: 48px;
+        }
       `
     ];
   }
@@ -126,6 +129,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
               }
           </section>
         `)}
+        ${this._value && !this._value.length ? html`${this._noRecordViewTempalte()}` : '' }
       ${this.errorMessage ? html`<div class="error-message body1">${this.errorMessage}</div>` : ''}
       </div>
       ${this._addButtonTemplate()}
@@ -143,6 +147,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this._formElements = [];
     this._onElementValueChange = this._onElementValueChange.bind(this);
     this.duplicateValidationMsg = 'Duplicate value is not allowed';
+    this.noRecordMessage = 'No records found';
   }
 
   connectedCallback() {
@@ -413,6 +418,16 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    */
   _getNewVal() {
     return null;
+  }
+
+  /**
+   * A protected method.  You may override it as per your need.
+   * Returns html template of `No records found` when records is not available.
+   * 
+   * By default it return `null`. 
+   */
+  _noRecordViewTempalte(){
+    return html`<div class="body1 layout vertical center-center no-record-message">${this.noRecordMessage}</div>`
   }
 }
 
