@@ -147,7 +147,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this._formElements = [];
     this._onElementValueChange = this._onElementValueChange.bind(this);
     this.duplicateValidationMsg = 'Duplicate value is not allowed';
-    this.noRecordMessage = 'No records found';
+    this.noRecordMessage = 'No Records Found';
   }
 
   connectedCallback() {
