@@ -54,7 +54,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
           margin-bottom: 16px;
         }
         .main-container .no-record-message {
-          min-height: 48px;
+          margin: 8px 0px;
         }
       `
     ];
