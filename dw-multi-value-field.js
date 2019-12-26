@@ -90,7 +90,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       /**
        * contains errorMessage
        */
-      errorMessage: { type: String },
+      errorMessage: { type: String, reflect: true },
 
       /**
        * `true` if allow to enter duplicate value. 
