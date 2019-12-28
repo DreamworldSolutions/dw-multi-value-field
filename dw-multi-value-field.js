@@ -111,7 +111,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       /**
        * `true` if value is invalid.
        */
-      invalid: { type: Boolean, reflec: true },
+      invalid: { type: Boolean, reflect: true },
 
       /**
        * set noRecordMessage.
