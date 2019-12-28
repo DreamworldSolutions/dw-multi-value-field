@@ -109,6 +109,16 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       minValidationMsg: { type: String },
 
       /**
+       * `true` if value is invalid.
+       */
+      invalid: { type: Boolean, reflec: true },
+
+      /**
+       * set noRecordMessage.
+       */
+      noRecordMessage: { type: String },
+
+      /**
        * contains howmany elements is displyed
        */
       _value: { type: Array }
@@ -148,6 +158,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this._onElementValueChange = this._onElementValueChange.bind(this);
     this.duplicateValidationMsg = 'Duplicate value is not allowed';
     this.noRecordMessage = 'No Records Found';
+    this.invalid = false;
   }
 
   connectedCallback() {
@@ -319,17 +330,20 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     //Min validation
     if (value.length < this.min) {
       this.errorMessage = this.minValidationMsg;
+      this.invalid = true;
       return false;
     }
 
     //duplicate validation
     if (!this.allowDuplicates && this._hasDuplicates(value)) {
       this.errorMessage = this.duplicateValidationMsg;
+      this.invalid = true;
       return false;
     }
 
     //If validation is passsed then clear any errorMessage if was shown from previous validation,
     this.errorMessage = '';
+    this.invalid = !bValidate;
     return bValidate;
   }
 
