@@ -41,8 +41,6 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
           --dw-icon-color: rgba(0, 0, 0, 0.6);
         }
         dw-icon-button {
-          width: 48px;
-          height: 48px;
           margin-left: 16px;
         }
         .input-container,
@@ -119,6 +117,11 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       noRecordMessage: { type: String },
 
       /**
+       * Default value is 48. 
+       */
+      closeButtonSize: { type: Number },
+
+      /**
        * contains howmany elements is displyed
        */
       _value: { type: Array }
@@ -134,7 +137,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
           <section class="layout horizontal input-container">
             ${this._formElementTemplate(index, value, required)}
               ${this._value.length > this.min ?
-        html`<dw-icon-button icon="clear" @click="${this._onRemove}" .index="${index}"></dw-icon-button>`
+        html`<dw-icon-button .buttonSize=${this.closeButtonSize} icon="clear" @click="${this._onRemove}" .index="${index}"></dw-icon-button>`
         : ''
       }
           </section>
@@ -159,6 +162,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this.duplicateValidationMsg = 'Duplicate value is not allowed';
     this.noRecordMessage = 'No Records Found';
     this.invalid = false;
+    this.closeButtonSize = 48;
   }
 
   connectedCallback() {
@@ -175,7 +179,9 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
         let removeEl = e.composedPath()[0];
 
         if (this._formElements.indexOf(removeEl) != -1) {
-          this._formElements.splice(removeEl.index, 1);
+          let index = this._formElements.length == 1 ? 0 : removeEl.index;
+
+          this._formElements.splice(index, 1);
         }
 
         el.removeEventListener('value-changed', this._onElementValueChange);
