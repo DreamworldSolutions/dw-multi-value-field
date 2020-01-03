@@ -137,7 +137,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   render() {
     return html`
       ${this.label ? html`<div class="body1 label">${this.label}</div>` : ''}
-      ${this._mainContainerTemplate()}
+      ${this._mainContainerTemplate()} 
       ${this._addButtonTemplate()}
     `
   }
