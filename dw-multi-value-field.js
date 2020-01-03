@@ -25,15 +25,12 @@ import isArray from 'lodash-es/isArray.js';
 import forIn from 'lodash-es/forIn.js';
 
 // These are the dw styles element needed by this element.
-import { flexLayout } from '@dreamworld/flex-layout/flex-layout.js';
-import { alignment } from '@dreamworld/flex-layout/flex-layout-alignment.js';
+import * as flexLayoutLiterals from '@dreamworld/flex-layout/flex-layout-literals';
 import { Typography } from '@dreamworld/material-styles/typography.js';
 
 export class DwMultiValueField extends DwFormElement(LitElement) {
   static get styles() {
     return [
-      flexLayout,
-      alignment,
       Typography,
       css`
         :host {
@@ -43,6 +40,10 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
         dw-icon-button {
           margin-left: 16px;
         }
+        .input-container {
+          ${flexLayoutLiterals.displayFlex};
+          ${flexLayoutLiterals.horizontal};
+        }
         .input-container,
         .label {
           margin-bottom: 16px;
@@ -51,7 +52,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
           color: var(--mdc-theme-error, #b00020);
           margin-bottom: 16px;
         }
-        .main-container .no-record-message {
+        .no-record-message {
           margin: 8px 0px;
         }
       `
@@ -129,22 +130,9 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   }
 
   render() {
-    let required = false;
     return html`
       ${this.label ? html`<div class="body1 label">${this.label}</div>` : ''}
-      <div class="layout vertical main-container">
-        ${repeat(this._getValueAsArray(), (value) => this._formElementId(value), (value, index) => html`
-          <section class="layout horizontal input-container">
-            ${this._formElementTemplate(index, value, required)}
-              ${this._value.length > this.min ?
-        html`<dw-icon-button .buttonSize=${this.closeButtonSize} icon="clear" @click="${this._onRemove}" .index="${index}"></dw-icon-button>`
-        : ''
-      }
-          </section>
-        `)}
-        ${this._value && !this._value.length ? html`${this._noRecordViewTempalte()}` : ''}
-      ${this.errorMessage ? html`<div class="error-message body1">${this.errorMessage}</div>` : ''}
-      </div>
+      ${this._mainContainerTemplate()}
       ${this._addButtonTemplate()}
     `
   }
@@ -191,6 +179,29 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     });
 
     this.minValidationMsg = `Minimum ${this.min} fields is required`;
+  }
+
+  /**
+   * Protected method. 
+   */
+  _mainContainerTemplate(){
+    let required = false;
+
+    return html`
+      ${this._value && !this._value.length ? html`${this._noRecordViewTempalte()}` : 
+        html `
+          ${repeat(this._getValueAsArray(), (value) => this._formElementId(value), (value, index) => html`
+              <section class="input-container">
+                ${this._formElementTemplate(index, value, required)}
+                  ${this._value.length > this.min ?
+                    html`<dw-icon-button .buttonSize=${this.closeButtonSize} icon="clear" @click="${this._onRemove}" .index="${index}"></dw-icon-button>` : ''
+                }
+              </section>
+          `)}
+        `
+      }
+      ${this.errorMessage ? html`<div class="error-message body1">${this.errorMessage}</div>` : ''}
+    `;
   }
 
   /**
