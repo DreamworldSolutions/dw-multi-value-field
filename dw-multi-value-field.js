@@ -34,7 +34,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       Typography,
       css`
         :host {
-          display: inline-block;
+          display: block;
           --dw-icon-color: rgba(0, 0, 0, 0.6);
         }
         dw-icon-button {
@@ -123,6 +123,11 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       closeButtonSize: { type: Number },
 
       /**
+       *  Default value is 'ADD. 
+       */
+      addButtonLabel: { type: String },
+
+      /**
        * contains howmany elements is displyed
        */
       _value: { type: Array }
@@ -151,6 +156,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this.noRecordMessage = 'No Records Found';
     this.invalid = false;
     this.closeButtonSize = 48;
+    this.addButtonLabel = 'ADD';
   }
 
   connectedCallback() {
@@ -260,7 +266,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    */
   _addButtonTemplate() {
     return html` 
-      ${this._value.length >= this.max ? '' : html`<dw-button outlined label="Add" @click="${this.addNew}"></dw-button>`}
+      ${this._value.length >= this.max ? '' : html`<dw-button outlined .label="${this.addButtonLabel}" @click="${this.addNew}"></dw-button>`}
     `
   }
 
