@@ -54,6 +54,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
         }
         .no-record-message {
           margin: 8px 0px;
+          text-align: center;
         }
       `
     ];
@@ -463,7 +464,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * Returns html template of `No records found` when records is not available.
    */
   _noRecordViewTempalte() {
-    return html`<div class="body1 layout vertical center-center no-record-message">${this.noRecordMessage}</div>`
+    return html`<div class="body1 no-record-message">${this.noRecordMessage}</div>`
   }
 }
 
