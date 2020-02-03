@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { css, LitElement, html } from 'lit-element';
-import { repeat } from 'lit-html/directives/repeat';
 
 // These are the dw element needed by this element.
 import '@dreamworld/dw-input/dw-input.js';
@@ -23,6 +22,7 @@ import isEqual from 'lodash-es/isEqual';
 import isEmpty from 'lodash-es/isEmpty';
 import isArray from 'lodash-es/isArray.js';
 import forIn from 'lodash-es/forIn.js';
+import cloneDeep from 'lodash-es/cloneDeep';
 
 // These are the dw styles element needed by this element.
 import * as flexLayoutLiterals from '@dreamworld/flex-layout/flex-layout-literals';
@@ -136,7 +136,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   }
 
   render() {
-    return html`
+    return html` 
       ${this.label ? html`<div class="body1 label">${this.label}</div>` : ''}
       ${this._mainContainerTemplate()} 
       ${this._addButtonTemplate()}
@@ -197,7 +197,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     return html`
       ${this._value && !this._value.length ? html`${this._noRecordViewTempalte()}` : 
         html `
-          ${repeat(this._getValueAsArray(), (value) => this._formElementId(value), (value, index) => html`
+            ${this._getValueAsArray().map((value, index) => html`
               <section class="input-container">
                 ${this._formElementTemplate(index, value, required)}
                   ${this._value.length > this.min ?
@@ -247,21 +247,6 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   }
 
   /**
-   * A protected method, which provides identity of the form-element based on it's value. It's used as the `key` 
-   * attribute to render this form-element using `repeat` directive.
-   * 
-   * This function MUST be overriden when form-element's value is complex data-type (not a primitive). When this 
-   * function is properly configured, it avoids re-rendering of all the items when one of the item (e.g. Top  item) is
-   * removed from the Array.
-   * 
-   * Default implementation returns the input value itself. So, it works ok for primitive types.
-   * @param {*} value 
-   */
-  _formElementId(value) {
-    return value;
-  }
-
-  /**
    * A protected method.  You may override it as per your need.
    * add button template
    */
@@ -277,7 +262,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    */
   set value(val) {
     let oldValue = this._value;
-    this._value = val;
+    this._value = cloneDeep(val);
 
     if (!isArray(oldValue)) {
       throw new Error('value must be array');
@@ -381,7 +366,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * @param {*} b 
    */
   _isEqual(a, b) {
-    return isEqual(this._formElementId(a), this._formElementId(b));
+    return isEqual(a, b);
   }
 
   /**
