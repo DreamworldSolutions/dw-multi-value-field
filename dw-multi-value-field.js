@@ -22,7 +22,6 @@ import isEqual from 'lodash-es/isEqual';
 import isEmpty from 'lodash-es/isEmpty';
 import isArray from 'lodash-es/isArray.js';
 import forIn from 'lodash-es/forIn.js';
-import cloneDeep from 'lodash-es/cloneDeep';
 
 // These are the dw styles element needed by this element.
 import * as flexLayoutLiterals from '@dreamworld/flex-layout/flex-layout-literals';
@@ -283,7 +282,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    */
   set value(val) {
     let oldValue = this._value;
-    this._value = cloneDeep(val);
+    this._value = val;
 
     if (!isArray(oldValue)) {
       throw new Error('value must be array');
