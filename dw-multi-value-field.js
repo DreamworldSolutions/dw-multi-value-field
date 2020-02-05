@@ -83,7 +83,9 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       max: { type: Number },
 
       /**
+       * Output property
        * value of this element
+       * NOTE:: Do not use this property to show pre-filled value instead use inputValue
        */
       value: { type: Array },
 
@@ -127,6 +129,12 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
        *  Default value is 'ADD. 
        */
       addButtonLabel: { type: String },
+
+      /**
+       * Input property
+       * Use this property to show pri-filled value of element
+       */
+      inputValue: { type: Object },
 
       /**
        * contains howmany elements is displyed
@@ -254,6 +262,19 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     return html` 
       ${this._value.length >= this.max ? '' : html`<dw-button outlined .label="${this.addButtonLabel}" @click="${this.addNew}"></dw-button>`}
     `
+  }
+
+  set inputValue(val) {
+    if(val === this._inputValue){
+      return;
+    }
+    
+    this._inputValue = val;
+    this.value = val;
+  }
+    
+  get inputValue(){
+    return this._inputValue;
   }
 
   /**
