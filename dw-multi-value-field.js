@@ -82,9 +82,8 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       max: { type: Number },
 
       /**
-       * Output property
+       * Input/Output property
        * value of this element
-       * NOTE:: Do not use this property to show pre-filled value instead use inputValue
        */
       value: { type: Array },
 
@@ -130,12 +129,6 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       addButtonLabel: { type: String },
 
       /**
-       * Input property
-       * Use this property to show pri-filled value of element
-       */
-      inputValue: { type: Object },
-
-      /**
        * contains howmany elements is displyed
        */
       _value: { type: Array }
@@ -165,6 +158,20 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this.invalid = false;
     this.closeButtonSize = 48;
     this.addButtonLabel = 'ADD';
+    /**
+     * Instance propperty.
+     * Default value is false
+     * Becomes true when Item is added, removed or item's value is changed by programmatically
+     * Again becomes false, once it's changed applied (Reflacted on UI)
+     */ 
+    this._changedInternally = false;
+
+    /**
+     * Instance propperty.
+     * Default value is null
+     * Holds intial value of element which is set by integrator to show prefilled value
+     */
+    this._intialValue = null;
   }
 
   connectedCallback() {
@@ -263,24 +270,20 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     `
   }
 
-  set inputValue(val) {
-    if(val === this._inputValue){
-      return;
-    }
-    
-    this._inputValue = val;
-    this.value = val;
-  }
-    
-  get inputValue(){
-    return this._inputValue;
-  }
-
   /**
    * @param {Array} index 
    * set value
    */
   set value(val) {
+    if (!this._changedInternally && val === this._intialValue) { 
+      return;
+    }
+
+    if (!this._changedInternally) { 
+      this._intialValue = val;
+    }
+
+    this._changedInternally = false;
     let oldValue = this._value;
     this._value = val;
 
@@ -418,6 +421,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
 
     let newValue = [...this._value];
     newValue.splice(formElIndex, 1, formElValue);
+    this._changedInternally = true;
     this.value = newValue;
   }
 
@@ -431,6 +435,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
 
     let value = [...this._value];
     value.splice(index, 1);
+    this._changedInternally = true;
     this.value = value;
   }
 
@@ -438,6 +443,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * call _getNewVal function
    */
   addNew() {
+    this._changedInternally = true;
     this.value = [...this._value, this._getNewVal()];
   }
 
