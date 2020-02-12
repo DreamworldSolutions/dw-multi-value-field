@@ -276,13 +276,27 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * set value
    */
   set value(val) {
+    if(this._value === val || this._lastUserValue === val) {
+      return;
+    }
     let oldValue = this._value;
     this._value = val;
+    this._lastUserValue = val;
 
     if (!isArray(oldValue)) {
       throw new Error('value must be array');
     }
 
+    this.requestUpdate('value', oldValue);
+  }
+
+  _setValue(val) {
+    if(this._value === val) {
+      return;
+    }
+
+    let oldValue = this._value;
+    this._value = val;
     this.requestUpdate('value', oldValue);
   }
 
@@ -413,7 +427,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
 
     let newValue = [...this._value];
     newValue.splice(formElIndex, 1, formElValue);
-    this.value = newValue;
+    this._setValue(newValue);
   }
 
   /**
@@ -426,14 +440,14 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
 
     let value = [...this._value];
     value.splice(index, 1);
-    this.value = value;
+    this._setValue(value);
   }
 
   /**
    * call _getNewVal function
    */
   addNew() {
-    this.value = [...this._value, this._getNewVal()];
+    this._setValue([...this._value, this._getNewVal()]);
   }
 
   /**
