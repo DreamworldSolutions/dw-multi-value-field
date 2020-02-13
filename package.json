@@ -2,23 +2,49 @@
   "name": "@dreamworld/dw-multi-value-field",
   "version": "0.0.0-development",
   "description": "A Multi-value form-field WebComponent, made by LitElement",
-  "main": "index.js",
+  "main": "dw-multi-value-field.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DreamworldSolutions/dw-button.git"
+    "url": "git+https://github.com/DreamworldSolutions/dw-multi-value-field.git"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "semantic-release": "beta"
-  },
   "bugs": {
     "url": "https://github.com/DreamworldSolutions/dw-multi-value-field/issues"
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-multi-value-field#readme",
+  "dependencies": {
+    "@dreamworld/dw-button": "^1.0.3",
+    "@dreamworld/dw-form": "^1.0.1",
+    "@dreamworld/dw-icon-button": "1.1.1",
+    "@dreamworld/dw-input": "^1.5.0",
+    "@dreamworld/flex-layout": "^1.0.0",
+    "@dreamworld/material-styles": "^1.1.0",
+    "lit-element": "^2.2.0",
+    "lodash-es": "^4.17.11"
+  },
+  "resolutions": {
+    "@material/mwc-base": "0.7.0",
+    "@material/mwc-ripple": "0.7.1",
+    "@material/feature-targeting": "3.1.0",
+    "@material/ripple": "3.2.0",
+    "@material/rtl": "3.2.0",
+    "@material/shape": "3.1.0",
+    "@material/typography": "3.1.0",
+    "@material/animation": "3.1.0",
+    "@material/theme": "3.1.0",
+    "@material/base": "3.1.0",
+    "@material/dom": "3.1.0",
+    "@semantic-release/npm": "5.2.0-beta.5",
+    "@dreamworld/dw-icon-button": "1.1.1"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "semantic-release": "16.0.0-beta.23"
+  },
   "publishConfig": {
     "access": "public"
   }
