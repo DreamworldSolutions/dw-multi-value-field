@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { css, LitElement, html } from 'lit-element';
-import { repeat } from 'lit-html/directives/repeat';
 
 // These are the dw element needed by this element.
 import '@dreamworld/dw-input/dw-input.js';
@@ -197,7 +196,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     return html`
       ${this._value && !this._value.length ? html`${this._noRecordViewTempalte()}` : 
         html `
-          ${repeat(this._getValueAsArray(), (value) => this._formElementId(value), (value, index) => html`
+          ${this._getValueAsArray().map((value, index) => html`
               <section class="input-container">
                 ${this._formElementTemplate(index, value, required)}
                   ${this._value.length > this.min ?
@@ -244,21 +243,6 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     }
 
     return this._value;
-  }
-
-  /**
-   * A protected method, which provides identity of the form-element based on it's value. It's used as the `key` 
-   * attribute to render this form-element using `repeat` directive.
-   * 
-   * This function MUST be overriden when form-element's value is complex data-type (not a primitive). When this 
-   * function is properly configured, it avoids re-rendering of all the items when one of the item (e.g. Top  item) is
-   * removed from the Array.
-   * 
-   * Default implementation returns the input value itself. So, it works ok for primitive types.
-   * @param {*} value 
-   */
-  _formElementId(value) {
-    return value;
   }
 
   /**
@@ -390,12 +374,12 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    * Verifies whether 2 arguments are equal or not.
    * 
    * Default implementation checks based on the deep equality of the value. In most cases, you don't need to override
-   * this method. Just override `_formElementId` method, and you will be set.
+   * this method.
    * @param {*} a 
    * @param {*} b 
    */
   _isEqual(a, b) {
-    return isEqual(this._formElementId(a), this._formElementId(b));
+    return isEqual(a, b);
   }
 
   /**
