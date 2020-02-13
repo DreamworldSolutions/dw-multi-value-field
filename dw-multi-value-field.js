@@ -428,6 +428,11 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     let newValue = [...this._value];
     newValue.splice(formElIndex, 1, formElValue);
     this._setValue(newValue);
+    
+    /* Perform validation if current state is invalid */
+    if (this.invalid) { 
+      this.validate();
+    }
   }
 
   /**
@@ -441,6 +446,11 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     let value = [...this._value];
     value.splice(index, 1);
     this._setValue(value);
+    
+    /* Perform validation if current state is invalid */
+    if (this.invalid) { 
+      this.validate();
+    }
   }
 
   /**
