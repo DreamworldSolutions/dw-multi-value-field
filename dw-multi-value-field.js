@@ -266,7 +266,8 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     let oldValue = this._value;
     this._value = val;
     this._lastUserValue = val;
-
+    this._ensureMin();
+    
     if (!isArray(oldValue)) {
       throw new Error('value must be array');
     }
