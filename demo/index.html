@@ -23,7 +23,8 @@
 
     <script>
       function validate(){
-        document.querySelector('dw-multi-value-field-demo').validate();
+        var el = document.querySelector('dw-multi-value-field-demo');
+        el && el.validate();
       }
     </script>
   <noscript>
