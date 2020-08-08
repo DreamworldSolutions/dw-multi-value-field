@@ -23,6 +23,7 @@
     "@dreamworld/dw-input": "^1.5.0",
     "@dreamworld/flex-layout": "^1.0.0",
     "@dreamworld/material-styles": "^1.1.0",
+    "@dreamworld/pwa-helpers": "^1.8.0",
     "lit-element": "^2.2.0",
     "lodash-es": "^4.17.11"
   },
@@ -39,7 +40,8 @@
     "@material/base": "3.1.0",
     "@material/dom": "3.1.0",
     "@semantic-release/npm": "5.2.0-beta.5",
-    "@dreamworld/dw-icon-button": "1.1.1"
+    "@dreamworld/dw-icon-button": "1.1.1",
+    "@dreamworld/pwa-helpers": "1.8.0"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
