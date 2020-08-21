@@ -290,8 +290,9 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
    */
   get value() {
     let aValue = [];
+    let value = this._value && this._value.length ? [...this._value] : [];
 
-    [...this._value].forEach((value) => {
+    value.forEach((value) => {
       if (!this._isEmptyVal(value)) {
         aValue.push(value);
       }
