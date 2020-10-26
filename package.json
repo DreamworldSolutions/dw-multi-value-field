@@ -39,15 +39,25 @@
     "@material/theme": "3.1.0",
     "@material/base": "3.1.0",
     "@material/dom": "3.1.0",
-    "@semantic-release/npm": "5.2.0-beta.5",
     "@dreamworld/dw-icon-button": "1.1.1",
     "@dreamworld/pwa-helpers": "1.8.0"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
-    "semantic-release": "16.0.0-beta.23"
+    "semantic-release": "17.0.8"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "release": {
+    "branches": [
+      "+([0-9])?(.{+([0-9]),x}).x",
+      "master",
+      {
+        "name": "feature/*",
+        "prerelease": "${name.replace(/^feature\\//g,\"\")}",
+        "channel": "${name.replace(/^feature\\//g,\"\")}"
+      }
+    ]
   }
 }
