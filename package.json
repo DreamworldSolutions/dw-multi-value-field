@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-multi-value-field#readme",
   "dependencies": {
-    "@dreamworld/dw-button": "^1.0.3",
-    "@dreamworld/dw-form": "^1.0.1",
-    "@dreamworld/dw-icon-button": "1.1.1",
-    "@dreamworld/dw-input": "^1.5.0",
+    "@dreamworld/dw-button": "^2.1.0",
+    "@dreamworld/dw-form": "^2.1.0",
+    "@dreamworld/dw-icon-button": "^2.1.0",
+    "@dreamworld/dw-input": "^2.1.0",
     "@dreamworld/flex-layout": "^1.0.0",
     "@dreamworld/material-styles": "^1.1.0",
     "@dreamworld/pwa-helpers": "^1.8.0",
@@ -28,19 +28,7 @@
     "lodash-es": "^4.17.11"
   },
   "resolutions": {
-    "@material/mwc-base": "0.7.0",
-    "@material/mwc-ripple": "0.7.1",
-    "@material/feature-targeting": "3.1.0",
-    "@material/ripple": "3.2.0",
-    "@material/rtl": "3.2.0",
-    "@material/shape": "3.1.0",
-    "@material/typography": "3.1.0",
-    "@material/animation": "3.1.0",
-    "@material/theme": "3.1.0",
-    "@material/base": "3.1.0",
-    "@material/dom": "3.1.0",
-    "@dreamworld/dw-icon-button": "1.1.1",
-    "@dreamworld/pwa-helpers": "1.8.0"
+    "tslib": "2.1.0"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
