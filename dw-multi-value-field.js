@@ -172,11 +172,10 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       el.addEventListener('value-changed', this._onElementValueChange);
       el.addEventListener('unregister-dw-form-element', (e) => {
         let removeEl = e.composedPath()[0];
+        let elIndex = this._formElements.indexOf(removeEl);
 
-        if (this._formElements.indexOf(removeEl) != -1) {
-          let index = this._formElements.length == 1 ? 0 : removeEl.index;
-
-          this._formElements.splice(index, 1);
+        if (elIndex != -1) {
+          this._formElements.splice(elIndex, 1);
         }
 
         el.removeEventListener('value-changed', this._onElementValueChange);
