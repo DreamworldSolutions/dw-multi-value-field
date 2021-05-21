@@ -129,6 +129,18 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       addButtonLabel: { type: String },
 
       /**
+       * Input property
+       * Set this to apply custom validation of input. Receives value to be validated as argument.
+       * It must return Boolean.
+       */
+      customValidator: { type: Function },
+
+      /**
+       * A Text message which is dispalyed to the user when `custom` validation is falied.
+       */
+      customValidationMsg: { type: String },
+
+      /**
        * contains howmany elements is displyed
        */
       _value: { type: Array }
@@ -350,6 +362,18 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
 
     //Retrieve array of values, where empty values have been removed.
     let value = this.value;
+
+    //Custom validation
+    if(this.customValidator){
+      let validate = this.customValidator(value);
+      this.invalid = !validate ;
+
+      if(this.invalid){
+        this.errorMessage = this.customValidationMsg;
+      }
+
+      return validate;
+    }
 
     //Min validation
     if (value.length < this.min) {
