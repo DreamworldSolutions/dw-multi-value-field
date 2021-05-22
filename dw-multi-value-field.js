@@ -394,7 +394,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     }
 
     //If validation is passsed then clear any errorMessage if was shown from previous validation,
-    this.errorMessage = this.customValidationMsg || '';
+    this.errorMessage = '';
     this.invalid = !bValidate;
     return bValidate;
   }
