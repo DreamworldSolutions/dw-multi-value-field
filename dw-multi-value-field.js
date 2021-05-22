@@ -364,7 +364,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     let value = this.value;
 
     //Custom validation
-    if(this.customValidator){
+    if(this.customValidator && bValidate){
       let validate = this.customValidator(value);
       this.invalid = !validate ;
 
@@ -394,7 +394,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     }
 
     //If validation is passsed then clear any errorMessage if was shown from previous validation,
-    this.errorMessage = '';
+    this.errorMessage = this.customValidationMsg || '';
     this.invalid = !bValidate;
     return bValidate;
   }
