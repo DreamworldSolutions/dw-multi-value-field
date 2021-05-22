@@ -372,10 +372,6 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
         this.errorMessage = this.customValidationMsg;
       }
 
-      if(!this.invalid){
-        this.errorMessage = '';
-      }
-
       return validate;
     }
 
