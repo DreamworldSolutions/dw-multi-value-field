@@ -165,6 +165,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     this.allowDuplicates = false;
     this._formElements = [];
     this._onElementValueChange = this._onElementValueChange.bind(this);
+    this._onElementBlur = this._onElementBlur.bind(this);
     this.duplicateValidationMsg = 'Duplicate value is not allowed';
     this.noRecordMessage = 'No Records Found';
     this.invalid = false;
@@ -182,6 +183,7 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       }
 
       el.addEventListener('value-changed', this._onElementValueChange);
+      el.addEventListener('blur', this._onElementBlur);
       el.addEventListener('unregister-dw-form-element', (e) => {
         let removeEl = e.composedPath()[0];
         let elIndex = this._formElements.indexOf(removeEl); 
@@ -422,6 +424,14 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
   _hasDuplicates(value) {
     let newVal = uniqWith(value, this._isEqual.bind(this));
     return newVal.length < value.length;
+  }
+
+  /**
+   * Call validate method on element blur
+   * @param {Object} e 
+   */
+  _onElementBlur(e){
+    this.validate();
   }
 
   /**
