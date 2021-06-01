@@ -376,7 +376,11 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
         this.errorMessage = '';
       }
 
-      return validate;
+      if(!validate){
+        return validate;
+      }
+
+      bValidate = validate;
     }
 
     //Min validation
