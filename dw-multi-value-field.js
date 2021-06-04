@@ -133,9 +133,10 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
        * Set this to apply custom validation of input. Receives value to be validated as argument.
        * It must return Boolean.
        */
-      customValidator: { type: Function },
+      customValidator: { type: Object },
 
       /**
+       * Input property
        * A Text message which is dispalyed to the user when `custom` validation is falied.
        */
       customValidationMsg: { type: String },
@@ -363,26 +364,6 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
     //Retrieve array of values, where empty values have been removed.
     let value = this.value;
 
-    //Custom validation
-    if(this.customValidator && bValidate){
-      let validate = this.customValidator(value);
-      this.invalid = !validate ;
-
-      if(this.invalid){
-        this.errorMessage = this.customValidationMsg;
-      }
-
-      if(!this.invalid){
-        this.errorMessage = '';
-      }
-
-      if(!validate){
-        return validate;
-      }
-
-      bValidate = validate;
-    }
-
     //Min validation
     if (value.length < this.min) {
       this.errorMessage = this.minValidationMsg;
@@ -397,8 +378,22 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       return false;
     }
 
+    //Custom validation
+    if(this.customValidator){
+      let isValid = this.customValidator(value);
+      this.invalid = !isValid ;
+
+      this.errorMessage = this.invalid ? this.customValidationMsg : '';
+
+      if(!isValid){
+        return isValid;
+      }
+
+      bValidate = isValid;
+    }
+
     //If validation is passsed then clear any errorMessage if was shown from previous validation,
-    this.errorMessage = this.customValidator && !this.customValidator(value) ? this.customValidationMsg : ''; 
+    this.errorMessage = ''; 
     this.invalid = !bValidate;
     return bValidate;
   }
