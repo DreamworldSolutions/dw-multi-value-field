@@ -129,6 +129,19 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       addButtonLabel: { type: String },
 
       /**
+       * Input property
+       * Set this to apply custom validation of input. Receives value to be validated as argument.
+       * It must return Boolean.
+       */
+      customValidator: { type: Object },
+
+      /**
+       * Input property
+       * A Text message which is dispalyed to the user when `custom` validation is falied.
+       */
+      customValidationMsg: { type: String },
+
+      /**
        * contains howmany elements is displyed
        */
       _value: { type: Array }
@@ -365,8 +378,22 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       return false;
     }
 
+    //Custom validation
+    if(this.customValidator){
+      let isValid = this.customValidator(value);
+      this.invalid = !isValid ;
+
+      this.errorMessage = this.invalid ? this.customValidationMsg : '';
+
+      if(!isValid){
+        return isValid;
+      }
+
+      bValidate = isValid;
+    }
+
     //If validation is passsed then clear any errorMessage if was shown from previous validation,
-    this.errorMessage = '';
+    this.errorMessage = ''; 
     this.invalid = !bValidate;
     return bValidate;
   }
