@@ -361,6 +361,10 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
       }
     });
 
+    if(!bValidate){
+      return bValidate;
+    }
+
     //Retrieve array of values, where empty values have been removed.
     let value = this.value;
 
