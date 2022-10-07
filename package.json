@@ -4,7 +4,8 @@
   "description": "A Multi-value form-field WebComponent, made by LitElement",
   "main": "dw-multi-value-field.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "wds --node-resolve --app-index demo/index.html --open --watch"
   },
   "repository": {
     "type": "git",
@@ -17,20 +18,16 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-multi-value-field#readme",
   "dependencies": {
-    "@dreamworld/dw-button": "^2.1.0",
-    "@dreamworld/dw-form": "^2.1.0",
-    "@dreamworld/dw-icon-button": "^2.1.0",
-    "@dreamworld/dw-input": "^2.1.0",
-    "@dreamworld/flex-layout": "^1.0.0",
-    "@dreamworld/material-styles": "^1.1.0",
+    "@dreamworld/dw-button": "https://github.com/DreamworldSolutions/dw-button.git#feature/upgrade-to-lit",
+    "@dreamworld/dw-form": "https://github.com/DreamworldSolutions/dw-form.git#feature/upgrade-to-lit",
+    "@dreamworld/dw-icon-button": "https://github.com/DreamworldSolutions/dw-icon-button.git#feature/upgrade-lit",
+    "@dreamworld/dw-input": "https://github.com/DreamworldSolutions/dw-input.git#feature/upgrade-to-lit",
+    "@dreamworld/material-styles": "https://github.com/DreamworldSolutions/material-styles.git#feature/upgrade-to-lit",
     "@dreamworld/pwa-helpers": "^1.8.0",
-    "lit-element": "^2.2.0",
     "lodash-es": "^4.17.11"
   },
-  "resolutions": {
-    "tslib": "2.1.0"
-  },
   "devDependencies": {
+    "@web/dev-server": "^0.1.34",
     "@webcomponents/webcomponentsjs": "^2.2.10",
     "semantic-release": "17.0.8"
   },
