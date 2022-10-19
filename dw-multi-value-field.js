@@ -8,8 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { css, html } from 'lit-element';
-import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
+import { css, html, LitElement } from '@dreamworld/pwa-helpers/lit.js';
 
 // These are the dw element needed by this element.
 import '@dreamworld/dw-input/dw-input.js';
@@ -25,7 +24,6 @@ import isArray from 'lodash-es/isArray.js';
 import forIn from 'lodash-es/forIn.js'; 
 
 // These are the dw styles element needed by this element.
-import * as flexLayoutLiterals from '@dreamworld/flex-layout/flex-layout-literals';
 import { Typography } from '@dreamworld/material-styles/typography.js';
 
 export class DwMultiValueField extends DwFormElement(LitElement) {
@@ -41,8 +39,8 @@ export class DwMultiValueField extends DwFormElement(LitElement) {
           margin-left: 16px;
         }
         .input-container {
-          ${flexLayoutLiterals.displayFlex};
-          ${flexLayoutLiterals.horizontal};
+          display: flex;
+          flex-direction: row;
         }
         .input-container,
         .label {

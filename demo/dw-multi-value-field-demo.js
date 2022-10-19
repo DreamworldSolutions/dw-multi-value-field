@@ -8,21 +8,15 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { css } from 'lit-element';
+import { css } from '@dreamworld/pwa-helpers/lit.js';
 
 // These are the dw element needed by this element.
 import  { DwMultiValueField } from '../dw-multi-value-field.js';
-
-// These are the dw styles needed by this element.
-import { flexLayout } from '@dreamworld/flex-layout/flex-layout.js';
-import { alignment } from '@dreamworld/flex-layout/flex-layout-alignment.js';
 
 export class DwMultiValueFieldDemo extends DwMultiValueField {
   static get styles() {
     return [
       super.styles,
-      flexLayout,
-      alignment,
       css `
       `
     ];
