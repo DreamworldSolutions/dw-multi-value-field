@@ -18,12 +18,12 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-multi-value-field#readme",
   "dependencies": {
-    "@dreamworld/dw-button": "https://github.com/DreamworldSolutions/dw-button.git#feature/upgrade-to-lit",
-    "@dreamworld/dw-form": "https://github.com/DreamworldSolutions/dw-form.git#feature/upgrade-to-lit",
-    "@dreamworld/dw-icon-button": "https://github.com/DreamworldSolutions/dw-icon-button.git#feature/upgrade-lit",
-    "@dreamworld/dw-input": "https://github.com/DreamworldSolutions/dw-input.git#feature/upgrade-to-lit",
-    "@dreamworld/material-styles": "https://github.com/DreamworldSolutions/material-styles.git#feature/upgrade-to-lit",
-    "@dreamworld/pwa-helpers": "^1.8.0",
+    "@dreamworld/dw-button": "^3.0.0",
+    "@dreamworld/dw-form": "^4.0.0",
+    "@dreamworld/dw-icon-button": "^3.0.0",
+    "@dreamworld/dw-input": "^3.0.0",
+    "@dreamworld/material-styles": "^3.1.0",
+    "@dreamworld/pwa-helpers": "^1.14.0",
     "lodash-es": "^4.17.11"
   },
   "devDependencies": {
